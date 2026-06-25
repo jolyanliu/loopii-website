@@ -225,7 +225,7 @@ body{font-family:'Poppins','PingFang SC',sans-serif;color:var(--dark);background
 .wrap{max-width:480px;margin:0 auto;min-height:100vh;background:var(--white)}
 .topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:rgba(250,250,250,.9);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:17px}
-.brand .dot{width:22px;height:22px;border-radius:7px;background:var(--grad)}
+.brand .dot{width:22px;height:22px;border-radius:7px;object-fit:cover}
 .topbar .open{background:var(--grad);color:#fff;border:none;font-family:inherit;font-weight:600;font-size:13px;padding:7px 16px;border-radius:30px;cursor:pointer}
 .cover{position:relative;width:100%;aspect-ratio:16/10;background:var(--grad);display:flex;align-items:center;justify-content:center;overflow:hidden}
 .cover .emoji{font-size:96px;filter:drop-shadow(0 6px 20px rgba(0,0,0,.25))}
@@ -249,7 +249,7 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
 .icbtn{width:50px;height:50px;flex:none;border:1.5px solid var(--line);background:#fff;border-radius:16px;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .ticket{display:block;text-align:center;margin:0 18px 4px;padding:13px;border:1.5px solid var(--purple);color:var(--purple);border-radius:30px;font-weight:600;font-size:15px;text-decoration:none}
 .dock{position:fixed;bottom:0;left:0;right:0;z-index:40;max-width:480px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px calc(12px + env(safe-area-inset-bottom));background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-top:1px solid var(--line)}
-.dock .dot{width:38px;height:38px;border-radius:11px;background:var(--grad);flex:none}
+.dock .dot{width:38px;height:38px;border-radius:11px;object-fit:cover;flex:none}
 .dock .txt{flex:1;line-height:1.3}.dock .txt b{font-size:15px;font-weight:700}.dock .txt small{display:block;color:var(--grey);font-size:12px}
 .dock .go{background:var(--dark);color:#fff;border:none;font-family:inherit;font-weight:600;font-size:14px;padding:11px 20px;border-radius:30px;cursor:pointer;white-space:nowrap}
 .wxmask{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.78);display:none;padding:24px;color:#fff}
@@ -261,7 +261,7 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
   const bodyHtml = `<body>
 <div class="wrap">
   <div class="topbar">
-    <div class="brand"><span class="dot"></span>Loopii</div>
+    <div class="brand"><img class="dot" src="https://loopii.io/colorlogo.png" alt="Loopii">Loopii</div>
     <button class="open" onclick="openApp()">${esc(t("open", d.lang))}</button>
   </div>
   ${coverBlock}
@@ -285,7 +285,7 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
   </div>
 </div>
 <div class="dock">
-  <span class="dot"></span>
+  <img class="dot" src="https://loopii.io/colorlogo.png" alt="Loopii">
   <div class="txt"><b>${esc(t("dockT", d.lang))}</b><small>${esc(t("dockS", d.lang))}</small></div>
   <button class="go" onclick="openApp()">${esc(t("getapp", d.lang))}</button>
 </div>
