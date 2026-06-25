@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light only">
+<link rel="icon" type="image/png" href="whitelogo.png">
+<link rel="apple-touch-icon" href="whitelogo.png">
+<title>Loopii — Find Your Circle</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --dark: #0A0A0A;
+  --white: #FAFAFA;
+  --purple: #7B2FF2;
+  --pink: #E040A0;
+  --magenta: #C850C0;
+  --grey: #888;
+  --light-bg: #F5F3F0;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; color-scheme: light only; }
+
+body {
+  font-family: 'Poppins', sans-serif;
+  color: var(--dark);
+  background: var(--white) !important;
+  overflow-x: hidden;
+  -webkit-text-fill-color: initial;
+}
+
+h1, h2, h3 { font-family: 'Poppins', sans-serif; }
+
+/* NAV */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 4px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(250,250,250,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.nav-logo {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.nav-logo-img {
+  height: 100px;
+  width: auto;
+  margin: -24px 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 36px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--grey);
+  font-size: 15px;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-links a:hover { color: var(--dark); }
+
+.nav-links .nav-cta {
+  background: linear-gradient(135deg, #7B2FF2, #E040A0);
+  color: white;
+  padding: 10px 28px;
+  border-radius: 50px;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.nav-links .nav-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(123,47,242,0.3);
+}
+
+/* HERO - TOLAN STYLE */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 48px 60px;
+  position: relative;
+  background: var(--white);
+}
+
+.hero-tagline {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--grey);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.2s forwards;
+}
+
+.hero-image-container {
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto 40px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s forwards;
+}
+
+.hero-image-container img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.hero-subtitle {
+  font-size: clamp(20px, 3vw, 28px);
+  color: var(--dark);
+  text-align: center;
+  font-weight: 400;
+  max-width: 500px;
+  line-height: 1.5;
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.6s forwards;
+}
+
+.hero-subtitle strong {
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-sub2 {
+  font-size: 16px;
+  color: var(--grey);
+  text-align: center;
+  max-width: 440px;
+  line-height: 1.6;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.7s forwards;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s forwards;
+}
+
+.btn-dark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #7B2FF2, #E040A0);
+  color: white;
+  padding: 16px 32px;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s;
+  border: none;
+}
+
+.btn-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(123,47,242,0.4);
+}
+
+.btn-dark svg { width: 20px; height: 20px; fill: currentColor; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  color: var(--dark);
+  padding: 16px 32px;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid #DDD;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  border-color: var(--dark);
+  transform: translateY(-2px);
+}
+
+.btn-outline svg { width: 18px; height: 18px; }
+
+.hero-bottom {
+  position: absolute;
+  bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--grey);
+  font-size: 13px;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(6px); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MARQUEE */
+.marquee-section {
+  padding: 40px 0;
+  background: linear-gradient(135deg, #7B2FF2 0%, #C850C0 50%, #E040A0 100%);
+  overflow: hidden;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: scroll 30s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.marquee-item span { font-size: 24px; }
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* SECTION STYLE */
+.section {
+  padding: 120px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 16px;
+}
+
+.section h2 {
+  font-size: clamp(36px, 5vw, 56px);
+  font-weight: 900;
+  letter-spacing: 0px;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.section > p {
+  font-size: 18px;
+  color: var(--grey);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 60px;
+}
+
+/* PROBLEM → SOLUTION */
+.problem-section {
+  padding: 100px 48px;
+  background: var(--light-bg);
+}
+
+.problem-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+}
+
+.problem-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #CC3333;
+  margin-bottom: 16px;
+}
+
+.solution-label {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--purple);
+  margin-bottom: 16px;
+}
+
+.problem-col h2, .solution-col h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 0px;
+  line-height: 1.3;
+  margin-bottom: 28px;
+}
+
+.problem-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.problem-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.problem-x {
+  font-size: 16px;
+  font-weight: 700;
+  color: #CC3333;
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.solution-check {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-top: 1px;
+  flex-shrink: 0;
+}
+
+.problem-item p {
+  font-size: 15px;
+  color: var(--grey);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .problem-inner { grid-template-columns: 1fr; gap: 48px; }
+  .problem-section { padding: 80px 24px; }
+}
+
+/* SCENARIO CALLOUT */
+.scenario-section {
+  padding: 80px 48px;
+  text-align: center;
+}
+
+.scenario-inner {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.scenario-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(28px, 4vw, 40px);
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: 0px;
+  color: var(--dark);
+}
+
+.scenario-text span {
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* FEATURE SHOWCASE */
+.feature-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.showcase-item {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+}
+
+.showcase-item.showcase-reverse {
+  flex-direction: row-reverse;
+}
+
+.showcase-phone {
+  min-width: 260px;
+  width: 260px;
+  height: 460px;
+  border-radius: 32px;
+  padding: 12px;
+  flex-shrink: 0;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.sp-screen {
+  width: 100%;
+  height: 100%;
+  background: #FAFAFA;
+  border-radius: 22px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.showcase-text h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.showcase-text p {
+  font-size: 16px;
+  color: var(--grey);
+  line-height: 1.7;
+  max-width: 380px;
+}
+
+/* Phone inner components */
+.sp-nav {
+  height: 36px;
+  background: white;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #EEE;
+  font-size: 14px;
+}
+
+.sp-map {
+  flex: 1;
+  background: #EAE6DE;
+  position: relative;
+  overflow: hidden;
+}
+
+.sp-grid {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(90deg, #D8D4CC 1px, transparent 1px), linear-gradient(0deg, #D8D4CC 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.4;
+}
+
+.sp-mapbg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.sp-pin {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.sp-center {
+  position: absolute;
+  top: 45%;
+  left: 45%;
+  width: 14px;
+  height: 14px;
+  background: #7B2FF2;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 0 5px rgba(123,47,242,0.2);
+}
+
+/* Map: monster people-markers + activity pins */
+.sp-mon {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: white;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+  overflow: hidden;
+}
+.sp-mon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.sp-evt {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.22);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  background: linear-gradient(150deg, #9D4EDD, #E040A0);
+}
+.sp-map-chip {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 2;
+  background: white;
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 8px;
+  font-weight: 700;
+  color: #444;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+}
+
+.sp-list, .sp-tracker {
+  flex: 1;
+  padding: 10px;
+  overflow: hidden;
+}
+
+.sp-card {
+  background: white;
+  border-radius: 10px;
+  padding: 8px;
+  margin-bottom: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.sp-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.sp-av {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.sp-title {
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.sp-meta {
+  font-size: 8px;
+  color: #888;
+}
+
+.sp-tags {
+  display: flex;
+  gap: 4px;
+}
+
+.sp-t-free { font-size: 7px; padding: 1px 6px; border-radius: 10px; background: #E6F9E6; color: #2D8A2D; font-weight: 600; }
+.sp-t-paid { font-size: 7px; padding: 1px 6px; border-radius: 10px; background: #FFF0E6; color: #CC6600; font-weight: 600; }
+.sp-t-join { font-size: 7px; padding: 1px 6px; border-radius: 10px; background: white; border: 1px solid #7B2FF2; color: #7B2FF2; font-weight: 600; }
+
+/* Tracker */
+.sp-tracker-h {
+  font-size: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.sp-stat {
+  background: white;
+  border-radius: 8px;
+  padding: 8px;
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.sp-bars {
+  display: flex;
+  gap: 2px;
+  margin-top: 3px;
+}
+
+.sp-bars i {
+  display: block;
+  width: 14px;
+  height: 4px;
+  border-radius: 2px;
+  background: #E0E0E0;
+}
+
+.sp-streak {
+  text-align: right;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.sp-streak span {
+  font-size: 7px;
+  font-weight: 400;
+  color: #888;
+}
+
+/* Chat */
+.sp-chat {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.sp-msg {
+  max-width: 78%;
+  padding: 6px 10px;
+  border-radius: 12px;
+  font-size: 9px;
+  line-height: 1.4;
+}
+
+.sp-msg-in {
+  background: white;
+  align-self: flex-start;
+  border-bottom-left-radius: 3px;
+}
+
+.sp-msg-out {
+  background: #7B2FF2;
+  color: white;
+  align-self: flex-end;
+  border-bottom-right-radius: 3px;
+}
+
+.sp-voice {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border-radius: 12px;
+  max-width: 55%;
+  background: white;
+  align-self: flex-start;
+}
+
+.sp-play {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #7B2FF2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7px;
+  flex-shrink: 0;
+}
+
+.sp-waves {
+  width: 60px;
+  height: 14px;
+  background: repeating-linear-gradient(90deg, #DDD 0px, #DDD 2px, transparent 2px, transparent 4px);
+  border-radius: 2px;
+}
+
+.sp-voice span {
+  font-size: 7px;
+  color: #888;
+}
+
+/* AI Chat */
+.sp-ai-chat { gap: 5px; }
+
+.sp-ai-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  padding: 4px 0;
+}
+
+.sp-ai-av {
+  font-size: 16px;
+}
+
+.sp-ai-badge {
+  font-size: 7px;
+  background: linear-gradient(135deg, #00D2FF, #7B2FF2);
+  color: white;
+  padding: 1px 5px;
+  border-radius: 6px;
+  font-weight: 700;
+}
+
+/* Lumi choice cards + event draft */
+.sp-choices { display: flex; gap: 5px; }
+.sp-choice {
+  flex: 1; background: white; border: 1px solid #E5DEF7;
+  border-radius: 8px; padding: 7px 4px; text-align: center;
+}
+.sp-choice.sel { border-color: #7B2FF2; }
+.sp-choice-ico { font-size: 14px; }
+.sp-choice-t { font-size: 8px; font-weight: 700; color: #222; margin-top: 2px; }
+.sp-choice-s { font-size: 6.5px; color: #999; margin-top: 1px; line-height: 1.2; }
+.sp-draft {
+  background: white; border: 1px solid #ECE6F9;
+  border-radius: 10px; padding: 9px;
+}
+.sp-draft-label { font-size: 7px; font-weight: 700; color: #7B2FF2; margin-bottom: 4px; }
+.sp-draft-title { font-size: 11px; font-weight: 800; color: #1a1a1a; }
+.sp-draft-tag {
+  display: inline-block; font-size: 7px; color: #534AB7;
+  background: #EEEDFE; padding: 2px 7px; border-radius: 999px; margin: 4px 0 6px;
+}
+.sp-draft-row { font-size: 8px; color: #555; margin-top: 3px; }
+.sp-draft-btn {
+  margin-top: 8px; background: #7B2FF2; color: white; text-align: center;
+  font-size: 9px; font-weight: 700; padding: 7px; border-radius: 8px;
+}
+
+/* Spark */
+.sp-spark {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  gap: 12px;
+}
+
+.sp-spark-card {
+  background: white;
+  border-radius: 14px;
+  padding: 16px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+}
+
+.sp-spark-av {
+  font-size: 36px;
+  margin-bottom: 4px;
+}
+
+.sp-spark-tags {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+  margin-top: 6px;
+}
+
+.sp-spark-tags span {
+  font-size: 7px;
+  background: #F0E6FF;
+  color: #7B2FF2;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.sp-spark-match {
+  font-size: 9px;
+  color: #E040A0;
+  font-weight: 700;
+  margin-top: 6px;
+}
+
+.sp-spark-btns {
+  display: flex;
+  gap: 16px;
+}
+
+.sp-spark-pass, .sp-spark-like {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sp-spark-pass { background: #F5F5F5; }
+.sp-spark-like { background: linear-gradient(135deg, #7B2FF2, #E040A0); }
+
+/* Responsive showcase */
+@media (max-width: 768px) {
+  .showcase-item, .showcase-item.showcase-reverse {
+    flex-direction: column;
+    gap: 32px;
+    text-align: center;
+  }
+  .showcase-text p { max-width: 100%; }
+  .showcase-phone { min-width: 220px; width: 220px; height: 400px; }
+}
+
+/* HOW IT WORKS */
+.how-section {
+  background: var(--light-bg);
+  padding: 120px 48px;
+}
+
+.how-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 48px;
+  margin-top: 60px;
+}
+
+.step-item {
+  text-align: center;
+}
+
+.step-num {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 28px;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+}
+
+.step-item h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.step-item p {
+  font-size: 15px;
+  color: var(--grey);
+  line-height: 1.6;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* INTERESTS CLOUD */
+.interests-section {
+  padding: 120px 48px;
+  text-align: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.interests-section h2 {
+  font-size: clamp(36px, 5vw, 52px);
+  font-weight: 900;
+  letter-spacing: 0px;
+  margin-bottom: 16px;
+}
+
+.interests-section > p {
+  font-size: 18px;
+  color: var(--grey);
+  margin-bottom: 48px;
+}
+
+.tags-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.tag {
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 15px;
+  font-weight: 600;
+  background: var(--light-bg);
+  color: var(--dark);
+  transition: all 0.3s;
+  cursor: default;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tag:hover {
+  background: var(--dark);
+  color: white;
+  transform: translateY(-3px);
+}
+
+/* CTA */
+.cta-section {
+  padding: 120px 48px;
+}
+
+.cta-box {
+  max-width: 900px;
+  margin: 0 auto;
+  background: linear-gradient(135deg, #7B2FF2 0%, #C850C0 50%, #E040A0 100%);
+  border-radius: 32px;
+  padding: 80px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-box::before {
+  content: '';
+  position: absolute;
+  top: -100px;
+  right: -100px;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--purple), var(--pink));
+  opacity: 0.15;
+  filter: blur(60px);
+}
+
+.cta-box::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -60px;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  opacity: 0.1;
+  filter: blur(60px);
+}
+
+.cta-box h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: white;
+  letter-spacing: 0px;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-box p {
+  font-size: 18px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 36px;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: white;
+  color: var(--dark);
+  padding: 16px 36px;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.btn-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,255,255,0.2);
+}
+
+.btn-white svg { width: 20px; height: 20px; fill: currentColor; }
+
+/* FOOTER */
+footer {
+  padding: 48px;
+  border-top: 1px solid #EEE;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.footer-brand {
+  max-width: 260px;
+}
+
+.footer-brand .nav-logo {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.footer-brand .nav-logo-img {
+  height: 112px;
+  width: auto;
+}
+
+.footer-brand p {
+  font-size: 14px;
+  color: var(--grey);
+  line-height: 1.6;
+}
+
+.footer-col h4 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--dark);
+  margin-bottom: 16px;
+}
+
+.footer-col a {
+  display: block;
+  font-size: 14px;
+  color: var(--grey);
+  text-decoration: none;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.footer-col a:hover { color: var(--dark); }
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 32px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid #EEE;
+  text-align: center;
+  font-size: 13px;
+  color: #BBB;
+}
+
+/* FORCE LIGHT MODE */
+@media (prefers-color-scheme: dark) {
+  html, body { background: #FAFAFA !important; color: #0A0A0A !important; }
+  nav { background: rgba(250,250,250,0.95) !important; }
+  .f-card { background: #F5F3F0 !important; color: #0A0A0A !important; }
+  .f-card p { color: #888 !important; }
+  .tag { background: #F5F3F0 !important; color: #0A0A0A !important; }
+  .section, .interests-section, .how-inner, .features-grid { background: transparent !important; }
+}
+
+/* SCROLL ANIMATIONS */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 60px; }
+  .hero-image-container { max-width: 100%; }
+  .section { padding: 80px 24px; }
+  .how-section { padding: 80px 24px; }
+  .steps-row { grid-template-columns: 1fr; gap: 32px; }
+  .interests-section { padding: 80px 24px; }
+  .cta-section { padding: 60px 24px; }
+  .cta-box { padding: 48px 32px; }
+  footer { padding: 32px 24px; }
+  .footer-inner { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo"><img src="colorlogo.png" alt="Loopii" class="nav-logo-img"></a>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#how">How it works</a>
+    <a href="#interests">Interests</a>
+    <a href="#download" class="nav-cta">Download</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tagline">A new way to meet people</div>
+
+  <div class="hero-image-container">
+    <img src="439.png" alt="Loopii characters on logo">
+  </div>
+
+  <p class="hero-subtitle"><strong>Meet people through real activities</strong> —<br>not endless scrolling.</p>
+  <p class="hero-sub2">Tennis. Hiking. Skiing. Whatever you love.<br>Find people nearby who actually do the same things as you.</p>
+
+  <div class="hero-actions">
+    <a href="#download" class="btn-dark">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download for iOS
+    </a>
+    <a href="#features" class="btn-outline">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>
+      Learn more
+    </a>
+  </div>
+
+  <div class="hero-bottom">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    Scroll to explore
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item"><span>🎾</span> Tennis</div>
+    <div class="marquee-item"><span>🧘</span> Yoga</div>
+    <div class="marquee-item"><span>🏄</span> Surfing</div>
+    <div class="marquee-item"><span>🧗</span> Rock Climbing</div>
+    <div class="marquee-item"><span>🎵</span> Music</div>
+    <div class="marquee-item"><span>📷</span> Photography</div>
+    <div class="marquee-item"><span>🍳</span> Cooking</div>
+    <div class="marquee-item"><span>🏀</span> Basketball</div>
+    <div class="marquee-item"><span>⛷️</span> Skiing</div>
+    <div class="marquee-item"><span>🚴</span> Cycling</div>
+    <div class="marquee-item"><span>📚</span> Reading</div>
+    <div class="marquee-item"><span>🍷</span> Wine</div>
+    <div class="marquee-item"><span>🎾</span> Tennis</div>
+    <div class="marquee-item"><span>🧘</span> Yoga</div>
+    <div class="marquee-item"><span>🏄</span> Surfing</div>
+    <div class="marquee-item"><span>🧗</span> Rock Climbing</div>
+    <div class="marquee-item"><span>🎵</span> Music</div>
+    <div class="marquee-item"><span>📷</span> Photography</div>
+    <div class="marquee-item"><span>🍳</span> Cooking</div>
+    <div class="marquee-item"><span>🏀</span> Basketball</div>
+    <div class="marquee-item"><span>⛷️</span> Skiing</div>
+    <div class="marquee-item"><span>🚴</span> Cycling</div>
+    <div class="marquee-item"><span>📚</span> Reading</div>
+    <div class="marquee-item"><span>🍷</span> Wine</div>
+  </div>
+</div>
+
+<!-- PROBLEM → SOLUTION -->
+<section class="problem-section">
+  <div class="problem-inner">
+    <div class="problem-col reveal">
+      <div class="problem-label">The problem</div>
+      <h2>New country, new city, no circle yet</h2>
+      <div class="problem-list">
+        <div class="problem-item">
+          <span class="problem-x">✕</span>
+          <p>You don't know anyone yet — breaking into local circles is tough</p>
+        </div>
+        <div class="problem-item">
+          <span class="problem-x">✕</span>
+          <p>The language barrier makes meeting locals even harder</p>
+        </div>
+        <div class="problem-item">
+          <span class="problem-x">✕</span>
+          <p>Local events are hard to find — and intimidating to show up to alone</p>
+        </div>
+      </div>
+    </div>
+    <div class="solution-col reveal">
+      <div class="solution-label">The solution</div>
+      <h2>Loopii helps you meet locals through real activities</h2>
+      <div class="problem-list">
+        <div class="problem-item">
+          <span class="solution-check">✓</span>
+          <p>Find people nearby who share your real interests</p>
+        </div>
+        <div class="problem-item">
+          <span class="solution-check">✓</span>
+          <p>Join local activities in any language — Loopii translates as you chat</p>
+        </div>
+        <div class="problem-item">
+          <span class="solution-check">✓</span>
+          <p>Turn a new place into your circle, fast</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCENARIO CALLOUT -->
+<section class="scenario-section">
+  <div class="scenario-inner reveal">
+    <p class="scenario-text">Want to play tennis tonight?<br><span>Find someone nearby in seconds.</span></p>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" id="features">
+  <div class="section-tag reveal">Features</div>
+  <h2 class="reveal">Built for real<br>connections</h2>
+  <p class="reveal">Not another feed to scroll. Loopii brings people together through shared interests and real events.</p>
+
+  <div class="feature-showcase">
+
+    <!-- 1. Map -->
+    <div class="showcase-item reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#7B2FF2,#E040A0);">
+        <div class="sp-screen">
+          <div class="sp-map">
+            <svg class="sp-mapbg" viewBox="0 0 240 430" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+              <rect width="240" height="430" fill="#ECE7DE"/>
+              <path d="M0,300 C60,288 92,332 132,322 C172,312 210,342 240,330 L240,430 L0,430 Z" fill="#BAD6E6"/>
+              <path d="M150,-10 C162,40 130,72 152,112 C168,150 144,180 152,210 L240,210 L240,-10 Z" fill="#BAD6E6" opacity="0.85"/>
+              <ellipse cx="58" cy="115" rx="40" ry="32" fill="#CFE3B6"/>
+              <ellipse cx="196" cy="262" rx="30" ry="26" fill="#CFE3B6"/>
+              <g stroke="#FFFFFF" stroke-width="5" fill="none" stroke-linecap="round">
+                <path d="M-10,82 C80,60 152,140 250,118"/>
+                <path d="M32,-10 C52,120 20,262 60,440"/>
+                <path d="M-10,232 C92,212 162,250 250,212"/>
+                <path d="M182,-10 C172,120 202,250 182,440"/>
+              </g>
+              <g stroke="#F4F1EA" stroke-width="2.5" fill="none">
+                <path d="M-10,40 C80,30 152,90 250,70"/>
+                <path d="M-10,162 C92,150 162,182 250,150"/>
+                <path d="M104,-10 L116,440"/>
+                <path d="M132,-10 C142,150 120,300 142,440"/>
+              </g>
+            </svg>
+            <div class="sp-map-chip">Everyone ▾</div>
+            <div class="sp-mon" style="top:9%;left:14%;"><img src="avatar2.png" alt=""></div>
+            <div class="sp-mon" style="top:11%;left:50%;"><img src="avatar10.png" alt=""></div>
+            <div class="sp-mon" style="top:18%;left:76%;"><img src="avatar8.png" alt=""></div>
+            <div class="sp-mon" style="top:30%;left:30%;"><img src="avatar3.png" alt=""></div>
+            <div class="sp-mon" style="top:33%;left:60%;"><img src="avatar5.png" alt=""></div>
+            <div class="sp-mon" style="top:44%;left:12%;"><img src="avatar17.png" alt=""></div>
+            <div class="sp-mon" style="top:46%;left:44%;"><img src="avatar13.png" alt=""></div>
+            <div class="sp-mon" style="top:52%;left:72%;"><img src="avatar6.png" alt=""></div>
+            <div class="sp-mon" style="top:62%;left:26%;"><img src="avatar14.png" alt=""></div>
+            <div class="sp-mon" style="top:66%;left:56%;"><img src="avatar4.png" alt=""></div>
+            <div class="sp-mon" style="top:77%;left:16%;"><img src="avatar16.png" alt=""></div>
+            <div class="sp-mon" style="top:80%;left:64%;"><img src="avatar9.png" alt=""></div>
+            <div class="sp-evt" style="top:24%;left:48%;">🎾</div>
+            <div class="sp-evt" style="top:38%;left:82%;">🥾</div>
+            <div class="sp-evt" style="top:58%;left:48%;">🏃</div>
+            <div class="sp-evt" style="top:72%;left:40%;">🧘</div>
+            <div class="sp-evt" style="top:88%;left:54%;">🎵</div>
+            <div class="sp-center" style="top:52%;left:58%;"></div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Live Map</h3>
+        <p>See who's nearby and what's happening around you in real time. Each avatar is a real person who shares your interests; pins are live activities you can join.</p>
+      </div>
+    </div>
+
+    <!-- 2. Events -->
+    <div class="showcase-item showcase-reverse reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#E040A0,#7B2FF2);">
+        <div class="sp-screen">
+          <div class="sp-list">
+            <div class="sp-card">
+              <div class="sp-row"><span class="sp-av" style="background:#FFD700">🎾</span><div><div class="sp-title">Tennis @ Green Park</div><div class="sp-meta">Sat 3:00 PM · 4/8 joined</div></div></div>
+              <div class="sp-tags"><span class="sp-t-free">Free</span><span class="sp-t-join">Join</span></div>
+            </div>
+            <div class="sp-card">
+              <div class="sp-row"><span class="sp-av" style="background:#98FB98">🥾</span><div><div class="sp-title">Weekend Hike</div><div class="sp-meta">Sun 8:00 AM · 12/20 joined</div></div></div>
+              <div class="sp-tags"><span class="sp-t-free">Free</span><span class="sp-t-join">Join</span></div>
+            </div>
+            <div class="sp-card">
+              <div class="sp-row"><span class="sp-av" style="background:#FF69B4">🧘</span><div><div class="sp-title">Yoga in the Park</div><div class="sp-meta">Mon 7:00 AM · 6/10 joined</div></div></div>
+              <div class="sp-tags"><span class="sp-t-paid">$15</span><span class="sp-t-join">Join</span></div>
+            </div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Events & Activities</h3>
+        <p>Create or join local events — tennis, hiking, yoga, music jams. Free or paid, your call.</p>
+      </div>
+    </div>
+
+    <!-- 3. Activity Tracker -->
+    <div class="showcase-item reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#C850C0,#7B2FF2);">
+        <div class="sp-screen">
+          <div class="sp-tracker">
+            <div class="sp-tracker-h">📊 Activity Tracker</div>
+            <div class="sp-stat">
+              <div><div class="sp-title">🎾 Tennis</div><div class="sp-meta">🔥 Frequent · 18 times</div><div class="sp-bars"><i style="background:#FF9800"></i><i style="background:#FF9800"></i><i style="background:#FF9800"></i><i></i><i></i></div></div>
+              <div class="sp-streak">5 wks<br><span>streak</span></div>
+            </div>
+            <div class="sp-stat">
+              <div><div class="sp-title">⛷️ Skiing</div><div class="sp-meta">💎 Dedicated · 32 times</div><div class="sp-bars"><i style="background:#7B2FF2"></i><i style="background:#7B2FF2"></i><i style="background:#7B2FF2"></i><i style="background:#7B2FF2"></i><i></i></div></div>
+              <div class="sp-streak">8 wks<br><span>best</span></div>
+            </div>
+            <div class="sp-stat">
+              <div><div class="sp-title">🥾 Hiking</div><div class="sp-meta">⭐ Consistent · 9 times</div><div class="sp-bars"><i style="background:#FFC107"></i><i style="background:#FFC107"></i><i></i><i></i><i></i></div></div>
+              <div class="sp-streak">3 wks<br><span>streak</span></div>
+            </div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Activity Tracker</h3>
+        <p>Track your streaks and activity stats. See how consistent you really are.</p>
+      </div>
+    </div>
+
+    <!-- 4. Translation -->
+    <div class="showcase-item showcase-reverse reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#00C9A7,#7B2FF2);">
+        <div class="sp-screen">
+          <div class="sp-chat">
+            <div class="sp-msg sp-msg-in" style="font-size:11px;">안녕하세요! 같이 테니스 칠래요? 🎾<br><span style="font-style:italic;opacity:0.7;font-size:10px;">Hey! Want to play tennis together?</span></div>
+            <div class="sp-msg sp-msg-out">はい、ぜひ！いつがいいですか？<br><span style="font-style:italic;opacity:0.7;font-size:10px;">Yes, definitely! When works for you?</span></div>
+            <div class="sp-msg sp-msg-in" style="font-size:11px;">토요일 오후 3시 어때요?<br><span style="font-style:italic;opacity:0.7;font-size:10px;">How about Saturday at 3pm?</span></div>
+            <div class="sp-msg sp-msg-out">完美！周六见 🙌<br><span style="font-style:italic;opacity:0.7;font-size:10px;">Perfect! See you Saturday</span></div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Language disappears, only interests remain</h3>
+        <p>Write in any language — Korean, Japanese, Chinese, English, Spanish and more. Your message is automatically translated for the reader in their language. Real connections, zero language barriers.</p>
+      </div>
+    </div>
+
+    <!-- 5. Chat -->
+    <div class="showcase-item showcase-reverse reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#7B2FF2,#4A00E0);">
+        <div class="sp-screen">
+          <div class="sp-chat">
+            <div class="sp-msg sp-msg-in">Hey! Are you coming to tennis on Saturday? 🎾</div>
+            <div class="sp-msg sp-msg-out">Yes! Can't wait 😊</div>
+            <div class="sp-voice sp-msg-in"><div class="sp-play">▶</div><div class="sp-waves"></div><span>0:12</span></div>
+            <div class="sp-msg sp-msg-out">Sounds good! See you there 🙌</div>
+            <div class="sp-msg sp-msg-in">I'll bring an extra racket</div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Chat & Voice</h3>
+        <p>Text, voice messages, and group chats. Connect with people before, during, and after events.</p>
+      </div>
+    </div>
+
+    <!-- 5. Lumi — AI activity planner -->
+    <div class="showcase-item reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#00D2FF,#7B2FF2);">
+        <div class="sp-screen">
+          <div class="sp-chat sp-ai-chat">
+            <div class="sp-ai-header"><span class="sp-ai-av">✨</span> <b>Lumi</b> <span class="sp-ai-badge">AI</span></div>
+            <div class="sp-msg sp-msg-out">I want to go hiking tomorrow</div>
+            <div class="sp-msg sp-msg-in">Want to host your own hike, or find one nearby to join? 😊</div>
+            <div class="sp-choices">
+              <div class="sp-choice"><div class="sp-choice-ico">🔍</div><div class="sp-choice-t">Find nearby</div><div class="sp-choice-s">See what you can join</div></div>
+              <div class="sp-choice sel"><div class="sp-choice-ico">➕</div><div class="sp-choice-t">Host my own</div><div class="sp-choice-s">I'll draft it for you</div></div>
+            </div>
+            <div class="sp-msg sp-msg-out">Host my own</div>
+            <div class="sp-draft">
+              <div class="sp-draft-label">✨ Lumi's draft</div>
+              <div class="sp-draft-title">Hiking Adventure</div>
+              <div class="sp-draft-tag">🥾 Hiking</div>
+              <div class="sp-draft-row">🕐 Tomorrow morning</div>
+              <div class="sp-draft-row">👥 ~10 people</div>
+              <div class="sp-draft-row">📍 A popular hiking spot nearby</div>
+              <div class="sp-draft-btn">Edit &amp; post</div>
+            </div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Just tell Lumi what you want to do</h3>
+        <p>Your AI activity planner. Say the word — Lumi finds a nearby event to join, or drafts a ready-to-post one for you to host. Reminders included.</p>
+      </div>
+    </div>
+
+    <!-- 6. Spark -->
+    <div class="showcase-item showcase-reverse reveal">
+      <div class="showcase-phone" style="background:linear-gradient(160deg,#FFD700,#FF6B6B,#E040A0);">
+        <div class="sp-screen">
+          <div class="sp-spark">
+            <div class="sp-spark-card">
+              <div class="sp-spark-av">🦊</div>
+              <div class="sp-title" style="text-align:center;font-size:13px;">Alex</div>
+              <div class="sp-spark-tags"><span>🎾 Tennis</span><span>🥾 Hiking</span><span>📷 Photo</span></div>
+              <div class="sp-spark-match">⚡ 3 interests in common!</div>
+            </div>
+            <div class="sp-spark-btns"><div class="sp-spark-pass">👋</div><div class="sp-spark-like">⚡</div></div>
+          </div>
+          <div class="sp-nav"><span>🗺️</span><span>🔍</span><span>➕</span><span>💬</span><span>👤</span></div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>Spark Match</h3>
+        <p>Meet people who share your real interests. No swiping — just genuine connections.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section" id="how">
+  <div class="how-inner">
+    <div class="section-tag reveal">How it works</div>
+    <h2 class="reveal" style="font-size:clamp(36px,5vw,52px);font-weight:900;letter-spacing:0px;margin-bottom:0;">Three steps to your circle</h2>
+
+    <div class="steps-row">
+      <div class="step-item reveal">
+        <div class="step-num">1</div>
+        <h3>Pick your interests</h3>
+        <p>Choose from 50+ activities or add your own. Stay anonymous with a fun avatar.</p>
+      </div>
+      <div class="step-item reveal">
+        <div class="step-num">2</div>
+        <h3>Discover nearby</h3>
+        <p>Browse the map, explore events, and find people who share your passions.</p>
+      </div>
+      <div class="step-item reveal">
+        <div class="step-num">3</div>
+        <h3>Join & connect</h3>
+        <p>Join events, chat, trade gear, and turn shared interests into real friendships.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERESTS -->
+<section class="interests-section" id="interests">
+  <div class="section-tag reveal">Interests</div>
+  <h2 class="reveal">Whatever you're into</h2>
+  <p class="reveal">There's someone nearby who's into it too</p>
+
+  <div class="tags-cloud reveal">
+    <div class="tag">🎾 Tennis</div>
+    <div class="tag">🥾 Hiking</div>
+    <div class="tag">⛷️ Skiing</div>
+    <div class="tag">🧘 Yoga</div>
+    <div class="tag">🏃 Running</div>
+    <div class="tag">🏄 Surfing</div>
+    <div class="tag">🏀 Basketball</div>
+    <div class="tag">⚽ Soccer</div>
+    <div class="tag">🚴 Cycling</div>
+    <div class="tag">🧗 Rock Climbing</div>
+    <div class="tag">🎵 Music</div>
+    <div class="tag">📷 Photography</div>
+    <div class="tag">🍳 Cooking</div>
+    <div class="tag">📚 Reading</div>
+    <div class="tag">🎮 Gaming</div>
+    <div class="tag">🍷 Wine</div>
+    <div class="tag">⛵ Sailing</div>
+    <div class="tag">🐴 Horse</div>
+    <div class="tag">🏌️ Golf</div>
+    <div class="tag">🛹 Skateboard</div>
+    <div class="tag">🪂 Skydiving</div>
+    <div class="tag">🛶 Kayak</div>
+    <div class="tag">💪 Gym</div>
+    <div class="tag">🧘 Meditation</div>
+    <div class="tag">☕ Coffee</div>
+    <div class="tag">🏈 Rugby</div>
+    <div class="tag">🎣 Fishing</div>
+    <div class="tag">📈 Stocks</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="download">
+  <div class="cta-box reveal">
+    <h2>Ready to find<br>your circle?</h2>
+    <p>Download Loopii and start connecting with people who love what you love.</p>
+    <a href="https://apps.apple.com/app/id6760251930" class="btn-white">
+      <svg viewBox="0 0 24 24"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+      Download for iOS
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="nav-logo"><img src="colorlogo.png" alt="Loopii" class="nav-logo-img"></span>
+      <p>Interest-based social app. Find your circle, join events, and build real friendships.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Product</h4>
+      <a href="#features">Features</a>
+      <a href="#how">How it works</a>
+      <a href="#interests">Interests</a>
+      <a href="#download">Download</a>
+    </div>
+    <div class="footer-col">
+      <h4>Legal</h4>
+      <a href='/terms'>Terms of Service</a>
+      <a href='/privacy'>Privacy Policy</a>
+      <a href='/delete-account'>Delete Account</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:support@loopii.io">support@loopii.io</a>
+      <a href="https://loopii.io">loopii.io</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    &copy; 2026 Loopii. All rights reserved.
+  </div>
+</footer>
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) entry.target.classList.add('visible');
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+</script>
+
+</body>
+</html>
