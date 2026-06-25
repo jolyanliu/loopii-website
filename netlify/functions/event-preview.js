@@ -1,9 +1,7 @@
-// netlify/functions/event-preview.mjs
-// Loopii event share preview - Netlify Function (Node runtime).
-// Route: loopii.io/e/:id  (configured in netlify.toml redirects)
-// Env vars required in Netlify dashboard:
-//   SUPABASE_URL       = https://kftkxsfswlzvyrqeoxrg.supabase.co
-//   SUPABASE_ANON_KEY  = (legacy anon JWT)
+// netlify/functions/event-preview.js
+// Loopii event share preview - Netlify Function (classic handler format).
+// Route: loopii.io/e/:id  (via netlify.toml redirect)
+// Env vars: SUPABASE_URL, SUPABASE_ANON_KEY
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const ANON_KEY     = process.env.SUPABASE_ANON_KEY;
@@ -27,12 +25,18 @@ const HEART = "\u2661";
 const SHARE = "\u2197";
 const TICKET = "\uD83C\uDF9F\uFE0F";
 
-export default async (request) => {
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id") || url.pathname.split("/").filter(Boolean).pop() || "";
+exports.handler = async (event) => {
+  // event.path like /e/<id> or /.netlify/functions/event-preview
+  // id can come from query (?id=) or last path segment
+  const qsId = (event.queryStringParameters && event.queryStringParameters.id) || "";
+  const pathParts = (event.path || "").split("/").filter(Boolean);
+  const lastSeg = pathParts.length ? pathParts[pathParts.length - 1] : "";
+  const id = qsId || (lastSeg === "event-preview" ? "" : lastSeg);
+
+  const accept = (event.headers && (event.headers["accept-language"] || event.headers["Accept-Language"])) || "";
 
   if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) {
-    return html(notFoundPage(), 404);
+    return resp(notFoundPage(), 404);
   }
 
   const cols = [
@@ -48,10 +52,10 @@ export default async (request) => {
       { headers: { apikey: ANON_KEY, Authorization: `Bearer ${ANON_KEY}` } }
     );
     const rows = await r.json();
-    if (!Array.isArray(rows) || rows.length === 0) return html(notFoundPage(), 404);
+    if (!Array.isArray(rows) || rows.length === 0) return resp(notFoundPage(), 404);
     ev = rows[0];
-  } catch (_) {
-    return html(notFoundPage(), 404);
+  } catch (e) {
+    return resp(notFoundPage(), 404);
   }
 
   let going = null;
@@ -63,9 +67,9 @@ export default async (request) => {
     );
     const crange = cr.headers.get("content-range");
     if (crange && crange.includes("/")) going = parseInt(crange.split("/")[1], 10);
-  } catch (_) {}
+  } catch (e) {}
 
-  const lang  = pickLang(url, request);
+  const lang  = pickLang(qsId, event.queryStringParameters, accept);
   const title = pickTr(ev.title_translations, lang) || ev.title || "Loopii";
   const desc  = pickTr(ev.description_translations, lang) || ev.description || "";
 
@@ -73,12 +77,12 @@ export default async (request) => {
   const ogImage  = cover || OG_FALLBACK;
   const emoji    = interestEmoji(ev.interest);
   const when     = fmtTime(ev.event_time, lang);
-  const pageUrl  = `${url.origin}/e/${id}`;
+  const pageUrl  = `https://loopii.io/e/${id}`;
   const isOfficial = ev.source_type && ev.source_type !== "loopii";
   const isTicketed = ev.payment_method === "external_ticket" && ev.external_url;
   const ogDesc   = buildOgDescription({ lang, when, location: ev.location, going, isTicketed });
 
-  return html(renderPage({
+  return resp(renderPage({
     lang, title, desc, when, location: ev.location, nickname: ev.nickname,
     cover, emoji, going, ogImage, ogDesc, pageUrl,
     interest: ev.interest || "", isOfficial, isTicketed, ticketUrl: ev.external_url
@@ -87,11 +91,11 @@ export default async (request) => {
 
 /* ============================ helpers ============================ */
 
-function pickLang(url, request) {
-  const q = (url.searchParams.get("lang") || "").slice(0, 2).toLowerCase();
+function pickLang(qsId, qs, accept) {
+  const q = ((qs && qs.lang) || "").slice(0, 2).toLowerCase();
   const supported = ["en","zh","ja","ko","th","es","ar","fr","pt","de"];
   if (supported.includes(q)) return q;
-  const al = (request.headers.get("accept-language") || "").toLowerCase();
+  const al = (accept || "").toLowerCase();
   for (const code of supported) if (al.includes(code)) return code;
   return "en";
 }
@@ -120,7 +124,7 @@ function fmtTime(iso, lang) {
       weekday: "short", month: "short", day: "numeric",
       hour: "2-digit", minute: "2-digit", timeZone: TZ
     }).format(new Date(iso));
-  } catch (_) { return iso; }
+  } catch (e) { return iso; }
 }
 
 function buildOgDescription({ lang, when, location, going, isTicketed }) {
@@ -139,18 +143,19 @@ function buildOgDescription({ lang, when, location, going, isTicketed }) {
 function clip(s, n) { s = (s || "").trim(); return s.length > n ? s.slice(0, n - 1) + "\u2026" : s; }
 
 function esc(s) {
-  return String(s ?? "").replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
+  return String(s == null ? "" : s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]));
 }
 function escA(s) {
-  return String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  return String(s == null ? "" : s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 }
 
-function html(body, status = 200) {
+function resp(body, statusCode) {
   const clean = body.replace(/^\uFEFF/, "");
-  return new Response(clean, {
-    status: status,
-    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=300" }
-  });
+  return {
+    statusCode: statusCode || 200,
+    headers: { "content-type": "text/html; charset=utf-8", "cache-control": "public, max-age=300" },
+    body: clean
+  };
 }
 
 const T = {
@@ -304,5 +309,3 @@ function openApp(){
 
   return head + bodyHtml;
 }
-
-export const config = { path: "/e/*" };
