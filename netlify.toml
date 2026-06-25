@@ -11,3 +11,15 @@
   to = "/.netlify/functions/event-preview?id=:id"
   status = 200
   force = true
+
+# Serve Apple App Site Association as JSON (no extension, must be application/json)
+[[headers]]
+  for = "/.well-known/apple-app-site-association"
+  [headers.values]
+    Content-Type = "application/json"
+
+# Serve Android asset links as JSON
+[[headers]]
+  for = "/.well-known/assetlinks.json"
+  [headers.values]
+    Content-Type = "application/json"
