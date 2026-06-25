@@ -1,0 +1,11 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+
+# /e/:id  ->  event-preview function
+# Functions 2.0 already declares path in-file, but this redirect guarantees it.
+[[redirects]]
+  from = "/e/*"
+  to = "/.netlify/functions/event-preview/:splat"
+  status = 200
+  force = true
