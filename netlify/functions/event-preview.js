@@ -16,6 +16,7 @@ const DOT = "\u00B7";
 const MDASH = "\u2014";
 const ARROW = "\u203A";
 const HAND = "\u261D\uFE0F";
+const ARROWUR = "\u2197\uFE0F";
 const FOX = "\uD83E\uDD8A";
 const KOALA = "\uD83D\uDC28";
 const PANDA = "\uD83D\uDC3C";
@@ -168,8 +169,11 @@ const T = {
   dockS:   { en: `Join the chat ${DOT} Find people going`, zh: "\u62A5\u540D \u804A\u5929 \u627E\u4EBA\u4E00\u8D77\u53BB" },
   open:    { en: "Open", zh: "\u6253\u5F00" },
   getapp:  { en: "Open / Get app", zh: "\u6253\u5F00 / \u4E0B\u8F7D" },
-  wx1:     { en: "Tap the menu, top-right", zh: "\u70B9\u51FB\u53F3\u4E0A\u89D2\u83DC\u5355" },
-  wx2:     { en: "choose Open in Browser", zh: "\u9009\u62E9\u5728\u6D4F\u89C8\u5668\u6253\u5F00" },
+  wxTitle: { en: "Can't open inside WeChat \uD83D\uDE05", zh: "\u5728\u5FAE\u4FE1\u91CC\u6682\u65F6\u6253\u4E0D\u5F00 \uD83D\uDE05" },
+  wxStep1: { en: "Tap the menu in the top-right", zh: "\u70B9\u51FB\u53F3\u4E0A\u89D2\u7684\u83DC\u5355" },
+  wxStep2: { en: "Choose \u201COpen in browser\u201D", zh: "\u9009\u62E9\u300C\u5728\u6D4F\u89C8\u5668\u4E2D\u6253\u5F00\u300D" },
+  wxAuto:  { en: "Then tap Open to enter Loopii", zh: "\u6253\u5F00\u540E\u70B9\u51FB\u300C\u6253\u5F00\u300D\u8FDB\u5165 Loopii" },
+  wxBack:  { en: "Continue on web", zh: "\u7EE7\u7EED\u6D4F\u89C8\u7F51\u9875" },
   more:    { en: `Read more ${ARROW}`, zh: `\u5C55\u5F00\u5168\u6587 ${ARROW}` },
   official:{ en: "Official", zh: "\u5B98\u65B9\u6D3B\u52A8" },
   host:    { en: "Host", zh: "\u53D1\u8D77\u4EBA" }
@@ -252,9 +256,17 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
 .dock .dot{width:48px;height:48px;border-radius:13px;object-fit:cover;flex:none}
 .dock .txt{flex:1;line-height:1.3}.dock .txt b{font-size:15px;font-weight:700}.dock .txt small{display:block;color:var(--grey);font-size:12px}
 .dock .go{background:var(--dark);color:#fff;border:none;font-family:inherit;font-weight:600;font-size:14px;padding:11px 20px;border-radius:30px;cursor:pointer;white-space:nowrap}
-.wxmask{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.78);display:none;padding:24px;color:#fff}
-.wxmask.on{display:block}.wxmask .arrow{position:absolute;top:8px;right:14px;font-size:40px}
-.wxmask .tip{margin-top:64px;text-align:right;font-size:17px;line-height:1.7;font-weight:600}.wxmask .tip span{color:#FFD84D}
+.wxmask{position:fixed;inset:0;z-index:99;background:rgba(10,6,25,.93);display:none;color:#fff}
+.wxmask.on{display:block}
+.wxmask .arrow{position:absolute;top:10px;right:14px;font-size:34px;color:#FFD84D}
+.wxmask .close{position:absolute;top:64px;left:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.16);border:none;color:#fff;font-size:20px;line-height:1;text-align:center;cursor:pointer;font-family:inherit}
+.wxmask .panel{position:absolute;top:120px;left:24px;right:24px}
+.wxmask .ttl{font-size:19px;font-weight:600;margin-bottom:24px;line-height:1.4}
+.wxmask .step{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
+.wxmask .num{width:26px;height:26px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
+.wxmask .stxt{font-size:16px;line-height:1.5;padding-top:1px}
+.wxmask .auto{margin-top:10px;background:rgba(255,216,77,.15);border-radius:10px;padding:12px 14px;font-size:15px;color:#FFD84D;line-height:1.45}
+.wxmask .back{position:absolute;bottom:28px;left:24px;right:24px;text-align:center;background:transparent;border:none;color:rgba(255,255,255,.55);font-size:14px;font-family:inherit;cursor:pointer}
 </style>
 </head>`;
 
@@ -289,9 +301,16 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
   <div class="txt"><b>${esc(t("dockT", d.lang))}</b><small>${esc(t("dockS", d.lang))}</small></div>
   <button class="go" onclick="openApp()">${esc(t("getapp", d.lang))}</button>
 </div>
-<div class="wxmask" id="wxmask" onclick="this.classList.remove('on')">
-  <div class="arrow">${HAND}</div>
-  <div class="tip">${esc(t("wx1", d.lang))}<br><span>${esc(t("wx2", d.lang))}</span></div>
+<div class="wxmask" id="wxmask">
+  <div class="arrow">${ARROWUR}</div>
+  <button class="close" id="wxclose" aria-label="close">${esc("\u2715")}</button>
+  <div class="panel">
+    <div class="ttl">${esc(t("wxTitle", d.lang))}</div>
+    <div class="step"><div class="num">1</div><div class="stxt">${esc(t("wxStep1", d.lang))}</div></div>
+    <div class="step"><div class="num">2</div><div class="stxt">${esc(t("wxStep2", d.lang))}</div></div>
+    <div class="auto">${esc("\u2728")} ${esc(t("wxAuto", d.lang))}</div>
+  </div>
+  <button class="back" id="wxback">${esc(t("wxBack", d.lang))}</button>
 </div>
 <script>
 var APP_STORE="${APP_STORE}", PLAY_STORE="${PLAY_STORE}";
@@ -301,24 +320,28 @@ var isAndroid=ua.indexOf("Android")>-1;
 var isWX=ua.indexOf("MicroMessenger")>-1;
 var STORE_URL=isAndroid?PLAY_STORE:APP_STORE;
 function tryLaunchThenStore(){
-  var t=Date.now();
-  var timer=setTimeout(function(){
-    if(Date.now()-t<1500){ location.href=STORE_URL; }
-  },1200);
-  try{ location.href=DEEP_LINK; }catch(e){}
-  window.addEventListener('pagehide',function(){clearTimeout(timer);},{once:true});
-  document.addEventListener('visibilitychange',function(){
-    if(document.hidden){clearTimeout(timer);}
-  },{once:true});
+var t=Date.now();
+var timer=setTimeout(function(){
+if(Date.now()-t<1500){ location.href=STORE_URL; }
+},1200);
+try{ location.href=DEEP_LINK; }catch(e){}
+window.addEventListener('pagehide',function(){clearTimeout(timer);},{once:true});
+document.addEventListener('visibilitychange',function(){
+if(document.hidden){clearTimeout(timer);}
+},{once:true});
 }
+function hideMask(){var m=document.getElementById('wxmask');if(m){m.classList.remove('on');}}
 function openApp(){
-  if(isWX){
-    try{ location.href=DEEP_LINK; }catch(e){}
-    document.getElementById('wxmask').classList.add('on');
-    return;
-  }
-  tryLaunchThenStore();
+if(isWX){
+document.getElementById('wxmask').classList.add('on');
+return;
 }
+tryLaunchThenStore();
+}
+(function(){
+var c=document.getElementById('wxclose');if(c){c.onclick=hideMask;}
+var b=document.getElementById('wxback');if(b){b.onclick=hideMask;}
+})();
 </script>
 </body>
 </html>`;
