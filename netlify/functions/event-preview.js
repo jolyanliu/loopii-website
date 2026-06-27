@@ -295,13 +295,29 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
 </div>
 <script>
 var APP_STORE="${APP_STORE}", PLAY_STORE="${PLAY_STORE}";
+var DEEP_LINK="loopii://event/"+${JSON.stringify(d.id || (d.pageUrl||"").split("/e/")[1] || "")};
 var ua=navigator.userAgent||"";
 var isAndroid=ua.indexOf("Android")>-1;
 var isWX=ua.indexOf("MicroMessenger")>-1;
 var STORE_URL=isAndroid?PLAY_STORE:APP_STORE;
+function tryLaunchThenStore(){
+  var t=Date.now();
+  var timer=setTimeout(function(){
+    if(Date.now()-t<1500){ location.href=STORE_URL; }
+  },1200);
+  try{ location.href=DEEP_LINK; }catch(e){}
+  window.addEventListener('pagehide',function(){clearTimeout(timer);},{once:true});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){clearTimeout(timer);}
+  },{once:true});
+}
 function openApp(){
-  if(isWX){document.getElementById('wxmask').classList.add('on');return;}
-  location.href=STORE_URL;
+  if(isWX){
+    try{ location.href=DEEP_LINK; }catch(e){}
+    document.getElementById('wxmask').classList.add('on');
+    return;
+  }
+  tryLaunchThenStore();
 }
 </script>
 </body>
