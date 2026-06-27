@@ -256,17 +256,15 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
 .dock .dot{width:48px;height:48px;border-radius:13px;object-fit:cover;flex:none}
 .dock .txt{flex:1;line-height:1.3}.dock .txt b{font-size:15px;font-weight:700}.dock .txt small{display:block;color:var(--grey);font-size:12px}
 .dock .go{background:var(--dark);color:#fff;border:none;font-family:inherit;font-weight:600;font-size:14px;padding:11px 20px;border-radius:30px;cursor:pointer;white-space:nowrap}
-.wxmask{position:fixed;inset:0;z-index:99;background:rgba(10,6,25,.93);display:none;color:#fff}
-.wxmask.on{display:block}
-.wxmask .arrow{position:absolute;top:10px;right:14px;font-size:34px;color:#FFD84D}
-.wxmask .close{position:absolute;top:64px;left:20px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.16);border:none;color:#fff;font-size:20px;line-height:1;text-align:center;cursor:pointer;font-family:inherit}
-.wxmask .panel{position:absolute;top:120px;left:24px;right:24px}
-.wxmask .ttl{font-size:19px;font-weight:600;margin-bottom:24px;line-height:1.4}
-.wxmask .step{display:flex;gap:12px;align-items:flex-start;margin-bottom:18px}
-.wxmask .num{width:26px;height:26px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
-.wxmask .stxt{font-size:16px;line-height:1.5;padding-top:1px}
-.wxmask .auto{margin-top:10px;background:rgba(255,216,77,.15);border-radius:10px;padding:12px 14px;font-size:15px;color:#FFD84D;line-height:1.45}
-.wxmask .back{position:absolute;bottom:28px;left:24px;right:24px;text-align:center;background:transparent;border:none;color:rgba(255,255,255,.55);font-size:14px;font-family:inherit;cursor:pointer}
+.wxmask{position:fixed;top:0;left:0;right:0;z-index:99;padding:10px;transform:translateY(-130%);transition:transform .35s ease;pointer-events:none}
+.wxmask.on{transform:translateY(0);pointer-events:auto}
+.wxmask .card{background:#241a3d;border:0.5px solid rgba(255,255,255,.12);border-radius:16px;padding:16px 16px 14px;color:#fff;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.4)}
+.wxmask .close{position:absolute;top:12px;right:12px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.12);border:none;color:#fff;font-size:15px;line-height:1;text-align:center;cursor:pointer;font-family:inherit}
+.wxmask .ttl{display:flex;align-items:center;gap:7px;font-size:16px;font-weight:600;margin-bottom:14px;padding-right:34px;line-height:1.3}
+.wxmask .step{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.wxmask .num{width:22px;height:22px;border-radius:50%;background:var(--purple);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;flex-shrink:0}
+.wxmask .stxt{font-size:14px;line-height:1.4}
+.wxmask .auto{margin-top:4px;background:rgba(255,216,77,.14);border-radius:9px;padding:9px 12px;font-size:13px;color:#FFD84D;line-height:1.45;display:flex;gap:6px;align-items:center}
 </style>
 </head>`;
 
@@ -302,15 +300,13 @@ h1{font-size:23px;font-weight:800;line-height:1.28;letter-spacing:-.3px;margin-b
   <button class="go" onclick="openApp()">${esc(t("getapp", d.lang))}</button>
 </div>
 <div class="wxmask" id="wxmask">
-  <div class="arrow">${ARROWUR}</div>
-  <button class="close" id="wxclose" aria-label="close">${esc("\u2715")}</button>
-  <div class="panel">
+  <div class="card">
+    <button class="close" id="wxclose" aria-label="close">${esc("\u2715")}</button>
     <div class="ttl">${esc(t("wxTitle", d.lang))}</div>
     <div class="step"><div class="num">1</div><div class="stxt">${esc(t("wxStep1", d.lang))}</div></div>
     <div class="step"><div class="num">2</div><div class="stxt">${esc(t("wxStep2", d.lang))}</div></div>
     <div class="auto">${esc("\u2728")} ${esc(t("wxAuto", d.lang))}</div>
   </div>
-  <button class="back" id="wxback">${esc(t("wxBack", d.lang))}</button>
 </div>
 <script>
 var APP_STORE="${APP_STORE}", PLAY_STORE="${PLAY_STORE}";
