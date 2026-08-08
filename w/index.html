@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ef3b86">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Open this Wave on Loopii">
+  <meta property="og:description" content="See the photos, comments and current Wave owner, then add your own check-in.">
+  <meta property="og:image" content="https://loopii.io/colorlogo.png">
+  <meta property="og:url" content="https://loopii.io/w/">
+  <title>Loopii Wave</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; color: #17131f; font-family: Inter, system-ui, -apple-system, sans-serif; background: linear-gradient(145deg,#fff0e9,#ffe8f3 52%,#efe8ff); }
+    main { width: min(100%,420px); padding: 36px 26px; text-align: center; border-radius: 28px; background: rgba(255,255,255,.95); box-shadow: 0 20px 60px rgba(117,38,94,.16); }
+    .pin { width: 86px; height: 86px; margin: 0 auto 20px; display: grid; place-items: center; border-radius: 50% 50% 50% 12px; color: white; font-size: 42px; transform: rotate(-45deg); background: linear-gradient(135deg,#ff853d,#ee2f91 65%,#9f3bd0); box-shadow: 0 14px 30px rgba(238,47,145,.28); }
+    .pin span { transform: rotate(45deg); }
+    h1 { margin: 0 0 10px; font-size: 30px; }
+    p { margin: 0 0 24px; color: #686273; line-height: 1.55; }
+    button { width: 100%; min-height: 52px; border: 0; border-radius: 999px; color: white; font: inherit; font-weight: 800; cursor: pointer; background: linear-gradient(135deg,#ff853d,#ee2f91 65%,#9f3bd0); }
+    small { display: block; margin-top: 14px; color: #8b8495; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="pin"><span>🤙</span></div>
+    <h1>Continue this Wave</h1>
+    <p>Open Loopii to see the current owner, photos and comments, or add your own check-in.</p>
+    <button id="open">Open in Loopii</button>
+    <small>If Loopii is not installed, you will be taken to the app store.</small>
+  </main>
+  <script>
+    const parts = location.pathname.split('/').filter(Boolean);
+    const waveId = parts[0] === 'w' ? (parts[1] || '') : '';
+    const appStore = 'https://apps.apple.com/app/id6760251930';
+    const playStore = 'https://play.google.com/store/apps/details?id=com.huazhou.loopiiapp';
+    const store = /Android/i.test(navigator.userAgent || '') ? playStore : appStore;
+
+    function openWave() {
+      if (!/^[0-9a-f-]{36}$/i.test(waveId)) {
+        location.href = store;
+        return;
+      }
+      const started = Date.now();
+      location.href = 'loopii://wave/' + encodeURIComponent(waveId);
+      setTimeout(() => {
+        if (Date.now() - started < 1900) location.href = store;
+      }, 1250);
+    }
+
+    document.querySelector('meta[property="og:url"]').setAttribute('content', location.href);
+    document.getElementById('open').addEventListener('click', openWave);
+  </script>
+</body>
+</html>

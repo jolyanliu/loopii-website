@@ -12,6 +12,21 @@
   status = 200
   force = true
 
+# /i/<id> -> static invite landing page.
+[[redirects]]
+  from = "/i/:id"
+  to = "/i/index.html"
+  status = 200
+  force = true
+
+# /w/<id> -> static Wave landing page. Installed apps handle this path
+# directly through Universal Links / Android App Links.
+[[redirects]]
+  from = "/w/:id"
+  to = "/w/index.html"
+  status = 200
+  force = true
+
 # Serve Apple App Site Association as JSON (no extension, must be application/json)
 [[headers]]
   for = "/.well-known/apple-app-site-association"

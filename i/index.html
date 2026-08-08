@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#7b2ff2">
+  <meta property="og:title" content="Join me on Loopii">
+  <meta property="og:description" content="Find nearby people and activities around shared interests.">
+  <meta property="og:image" content="https://loopii.io/colorlogo.png">
+  <title>Join Loopii</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; color: #17131f; font-family: Inter, system-ui, -apple-system, sans-serif; background: linear-gradient(145deg,#f2eafe,#ffe8f3 56%,#e8fff7); }
+    main { width: min(100%,420px); padding: 34px 26px; text-align: center; border-radius: 28px; background: rgba(255,255,255,.94); box-shadow: 0 20px 60px rgba(83,38,133,.16); }
+    .mark { width: 72px; height: 72px; margin: 0 auto 18px; display: grid; place-items: center; border-radius: 22px; color: white; font-size: 34px; background: linear-gradient(135deg,#7b2ff2,#e040a0); }
+    h1 { margin: 0 0 10px; font-size: 30px; }
+    p { margin: 0 0 24px; color: #686273; line-height: 1.55; }
+    button { width: 100%; min-height: 52px; border: 0; border-radius: 999px; color: white; font: inherit; font-weight: 800; cursor: pointer; background: linear-gradient(135deg,#7b2ff2,#e040a0); }
+    small { display: block; margin-top: 14px; color: #8b8495; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="mark">∞</div>
+    <h1>Meet me on Loopii</h1>
+    <p>Install Loopii to discover nearby activities and people who share your interests.</p>
+    <button id="continue">Open or install Loopii</button>
+    <small>Your invite will be applied after registration.</small>
+  </main>
+  <script>
+    const parts = location.pathname.split('/').filter(Boolean);
+    const code = parts[0] === 'i' ? (parts[1] || '') : '';
+    const appStore = 'https://apps.apple.com/app/id6760251930';
+    const playStore = 'https://play.google.com/store/apps/details?id=com.huazhou.loopiiapp';
+    const store = /Android/i.test(navigator.userAgent || '') ? playStore : appStore;
+
+    async function continueToApp() {
+      if (!/^[0-9a-f-]{36}$/i.test(code)) {
+        location.href = store;
+        return;
+      }
+      try {
+        await navigator.clipboard.writeText('LOOPII_INVITE:' + code);
+      } catch (_) {
+        // Universal Links still provide immediate attribution when installed.
+      }
+      const started = Date.now();
+      location.href = 'loopii://invite/' + encodeURIComponent(code);
+      setTimeout(() => {
+        if (Date.now() - started < 1900) location.href = store;
+      }, 1250);
+    }
+    document.getElementById('continue').addEventListener('click', continueToApp);
+  </script>
+</body>
+</html>

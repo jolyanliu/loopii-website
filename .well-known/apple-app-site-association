@@ -4,7 +4,11 @@
     "details": [
       {
         "appID": "38CX63VTSF.com.huazhou.loopiiApp",
-        "paths": [ "/e/*" ]
+        "paths": [
+          "/e/*",
+          "/i/*",
+          "/w/*"
+        ]
       }
     ]
   }
