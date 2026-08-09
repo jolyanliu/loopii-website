@@ -19,11 +19,12 @@
   status = 200
   force = true
 
-# /w/<id> -> static Wave landing page. Installed apps handle this path
-# directly through Universal Links / Android App Links.
+# /w/<id> -> server-rendered Wave card. Installed apps handle this path
+# directly through Universal Links / Android App Links; social crawlers and
+# users without the app receive safe public metadata and a download fallback.
 [[redirects]]
   from = "/w/:id"
-  to = "/w/index.html"
+  to = "/.netlify/functions/wave-preview?id=:id"
   status = 200
   force = true
 
